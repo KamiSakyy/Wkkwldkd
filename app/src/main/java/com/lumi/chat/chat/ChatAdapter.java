@@ -65,10 +65,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             LumiVh vh = (LumiVh) h;
             String display = "images".equals(m.kind) ? m.intro() : m.content;
             if (m.pending && (display == null || display.isEmpty())) display = "Печатает…";
-            vh.text.setText(Md.toSpan(display == null ? "" : display));
+            final String shown = display == null ? "" : display;
+            vh.text.setText(Md.toSpan(shown));
             vh.text.setMovementMethod(LinkMovementMethod.getInstance());
             vh.text.setOnLongClickListener(v -> {
-                Saver.copy(v.getContext(), display == null ? "" : display);
+                Saver.copy(v.getContext(), shown);
                 return true;
             });
 
@@ -111,7 +112,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             vh.tts.setVisibility(m.pending ? View.GONE : View.VISIBLE);
-            vh.tts.setOnClickListener(v -> cb.onTts(Md.plain("images".equals(m.kind) ? m.intro() : m.content)));
+            vh.tts.setOnClickListener(v -> cb.onTts(Md.plain(shown)));
         }
     }
 
