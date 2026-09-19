@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="18dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Настройки Lumi"
+            android:textColor="@color/textMain"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Модель ИИ (llm7.io, бесплатно).\nНапример: GLM-5.3-Flash, codestral-latest"
+            android:textColor="@color/textDim"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/etModel"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_input"
+            android:textColor="@color/textMain"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Токен llm7 (необязательно, для turbo-моделей)"
+            android:textColor="@color/textDim"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/etToken7"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_input"
+            android:textColor="@color/textMain"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Токен Pollinations (необязательно) — включает ИИ-ГЕНЕРАЦИЮ артов «с нуля» (нарисуй…). Без токена арты берутся из живых источников: nekos.best, waifu.im, AniList, Kitsu."
+            android:textColor="@color/textDim"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/etPoll"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_input"
+            android:textColor="@color/textMain"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/cbTts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Озвучивать ответы Люми (TTS)"
+            android:textColor="@color/textMain" />
+
+        <TextView
+            android:id="@+id/tvDossier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/textDim"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сохранить" />
+
+            <Button
+                android:id="@+id/btnClearChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Очистить чат" />
+
+            <Button
+                android:id="@+id/btnClearMem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Забыть обо мне" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Lumi v2.0 · нативное Android-приложение (Java)\nИсточники: llm7.io · AniList · Kitsu · nekos.best · waifu.im\nСкажи «меня зовут …» или «запомни …» — Люми запомнит 💜"
+            android:textColor="@color/textDim"
+            android:textSize="11sp" />
+    </LinearLayout>
+</ScrollView>

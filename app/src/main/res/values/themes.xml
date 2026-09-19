@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Lumi" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:colorAccent">@color/primary</item>
+        <item name="android:textColor">@color/textMain</item>
+        <item name="bottomNavigationStyle">@style/LumiBottomNav</item>
+    </style>
+
+    <style name="LumiBottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/surface</item>
+        <item name="itemIconTint">@color/nav_item</item>
+        <item name="itemTextColor">@color/nav_item</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+
+    <style name="LumiEdit" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/textMain</item>
+        <item name="android:textColorHint">@color/textDim</item>
+        <item name="android:backgroundTint">@color/surface2</item>
+    </style>
+
+    <style name="ChipToggle" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textSize">12sp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingLeft">14dp</item>
+        <item name="android:paddingRight">14dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+</resources>

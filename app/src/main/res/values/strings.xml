@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lumi ✨</string>
+    <string name="tab_chat">Чат</string>
+    <string name="tab_art">Арты</string>
+    <string name="tab_chars">Персонажи</string>
+    <string name="tab_anime">Аниме</string>
+    <string name="hint_message">Напиши Люми что-нибудь…</string>
+    <string name="hint_search_art">Поиск артов: персонаж, аниме…</string>
+    <string name="hint_char_name">Имя персонажа</string>
+    <string name="hint_char_anime">Аниме (необязательно)</string>
+    <string name="hint_search_anime">Найти аниме…</string>
+    <string name="send">Отправить</string>
+    <string name="voice">Голосовой ввод</string>
+    <string name="search">Искать</string>
+    <string name="download">Скачать</string>
+    <string name="wallpaper">Обои</string>
+    <string name="share">Поделиться</string>
+    <string name="source">Источник</string>
+    <string name="favorites">Избранное</string>
+    <string name="settings">Настройки</string>
+</resources>

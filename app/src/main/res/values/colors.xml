@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#0B0B12</color>
+    <color name="surface">#151522</color>
+    <color name="surface2">#1D1D30</color>
+    <color name="stroke">#2A2A40</color>
+    <color name="primary">#A78BFA</color>
+    <color name="primaryDeep">#7C3AED</color>
+    <color name="indigo">#4F46E5</color>
+    <color name="textMain">#F2F2F7</color>
+    <color name="textDim">#9A9AB0</color>
+    <color name="meBubble">#5B21B6</color>
+    <color name="lumiBubble">#1C1C2E</color>
+    <color name="placeholder">#23233A</color>
+    <color name="ok">#34D399</color>
+    <color name="warn">#FBBF24</color>
+    <color name="launcherBg">#141430</color>
+</resources>

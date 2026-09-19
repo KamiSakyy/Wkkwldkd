@@ -1,0 +1,64 @@
+name: Спросить Люми о пожеланиях
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, 'arena/**' ]
+    paths:
+      - '.github/workflows/ask-lumi.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  ask:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Спросить Люми (llm7.io → Pollinations)
+        run: |
+          mkdir -p artifacts
+          QUESTION="Ты Люми, 18-летняя ИИ-подруга в Android-приложении (чат, арты, персонажи аниме, уведомления о сериях). Пользователь спрашивает: чего тебе не хватает в приложении, чтобы общение было живее и удобнее? Назови 5 конкретных желаний, ТОЛЬКО реально осуществимых и полезных (без прямого пинга соцсетей и т.п.). Ответь коротким списком на русском, от первого лица, с эмодзи."
+          PAYLOAD=$(jq -n --arg q "$QUESTION" '{model:"GLM-5.3-Flash",messages:[{role:"system",content:"Ты — Люми, живая и милая ИИ-подруга. Отвечай по-русски, кратко, списком."},{role:"user",content:$q}]}')
+          for i in 1 2 3; do
+            RESP=$(curl -s -m 90 https://api.llm7.io/v1/chat/completions \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer public-anonymous" \
+              -d "$PAYLOAD" || true)
+            echo "$RESP" | jq -r '.choices[0].message.content // empty' > artifacts/lumi-wishes.txt
+            if [ -s artifacts/lumi-wishes.txt ]; then
+              echo "Люми ответила (llm7):"; cat artifacts/lumi-wishes.txt
+              break
+            fi
+            echo "попытка $i не удалась, пробую ещё…"
+            sleep 3
+          done
+          if [ ! -s artifacts/lumi-wishes.txt ]; then
+            curl -s -m 90 -G "https://text.pollinations.ai/" \
+              --data-urlencode "model=openai" \
+              --data-urlencode "referrer=lumi-chat" \
+              --data-urlencode "q=$QUESTION" > artifacts/lumi-wishes.txt || true
+            head -c 2000 artifacts/lumi-wishes.txt || true
+          fi
+
+      - name: Сохранить в файл в репозитории
+        run: |
+          if [ -s artifacts/lumi-wishes.txt ]; then
+            mkdir -p lumi
+            cp artifacts/lumi-wishes.txt lumi/wishes.md
+            git config user.name "lumi-ci"
+            git config user.email "lumi-ci@users.noreply.github.com"
+            git add lumi/wishes.md
+            git commit -m "lumi: пожелания Люми [skip ci]" || exit 0
+            BRANCH="${GITHUB_REF#refs/heads/}"
+            git push origin "HEAD:$BRANCH" || echo "пуш не удался, ответ доступен в артефакте"
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumi-wishes
+          path: artifacts/lumi-wishes.txt
+          if-no-files-found: ignore

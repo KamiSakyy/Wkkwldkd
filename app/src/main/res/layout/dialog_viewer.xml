@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EE000000">
+
+    <ImageView
+        android:id="@+id/bigImg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/tab_art" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/btnDownload"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_download"
+            android:contentDescription="@string/download" />
+
+        <ImageButton
+            android:id="@+id/btnWallpaper"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="18dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_image"
+            android:contentDescription="@string/wallpaper" />
+
+        <ImageButton
+            android:id="@+id/btnShare"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="18dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_share"
+            android:contentDescription="@string/share" />
+
+        <ImageButton
+            android:id="@+id/btnSource"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="18dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_link"
+            android:contentDescription="@string/source" />
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="18dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close"
+            android:contentDescription="@string/search" />
+    </LinearLayout>
+</LinearLayout>
