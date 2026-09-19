@@ -19,4 +19,5 @@
     <string name="source">Источник</string>
     <string name="favorites">Избранное</string>
     <string name="settings">Настройки</string>
+    <string name="widget_desc">Сообщение от Люми на главном экране</string>
 </resources>

@@ -39,18 +39,27 @@
 
         <ImageButton
             android:id="@+id/btnShare"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="18dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="14dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_share"
             android:contentDescription="@string/share" />
 
         <ImageButton
+            android:id="@+id/btnFav"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="14dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_heart"
+            android:contentDescription="@string/favorites" />
+
+        <ImageButton
             android:id="@+id/btnSource"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="18dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="14dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_link"
             android:contentDescription="@string/source" />

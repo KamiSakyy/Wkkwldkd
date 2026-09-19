@@ -44,11 +44,14 @@ public class ViewerDialog extends BottomSheetDialogFragment {
 
         ImageView big = v.findViewById(R.id.bigImg);
         ImageLoader.get().load(item.url, big, false);
-        big.setOnLongClickListener(x -> {
-            boolean fav = Db.get().isFav(item.url);
-            if (fav) Db.get().delFav(item.url); else Db.get().addFav("art", item.title, item.url, item.source);
-            Toast.makeText(requireContext(), fav ? "Убрала из избранного" : "В избранном ⭐", Toast.LENGTH_SHORT).show();
-            return true;
+
+        ImageButton fav = v.findViewById(R.id.btnFav);
+        paintFav(fav, Db.get().isFav(item.url));
+        fav.setOnClickListener(x -> {
+            boolean f = Db.get().isFav(item.url);
+            if (f) Db.get().delFav(item.url); else Db.get().addFav("art", item.title, item.url, item.source);
+            paintFav(fav, !f);
+            Toast.makeText(requireContext(), f ? "Убрала сердечко 💔" : "Мне тоже нравится! В избранном ❤️", Toast.LENGTH_SHORT).show();
         });
 
         v.findViewById(R.id.btnDownload).setOnClickListener(x -> Saver.download(requireContext(), item.url));
@@ -60,5 +63,10 @@ public class ViewerDialog extends BottomSheetDialogFragment {
         });
         v.findViewById(R.id.btnClose).setOnClickListener(x -> dismiss());
         return d;
+    }
+
+    private static void paintFav(ImageButton b, boolean fav) {
+        b.setImageResource(fav ? R.drawable.ic_heart : R.drawable.ic_heart);
+        b.setColorFilter(fav ? 0xFFFF6B9D : 0xFF9A9AB0);
     }
 }

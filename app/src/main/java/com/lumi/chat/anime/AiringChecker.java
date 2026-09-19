@@ -55,18 +55,20 @@ public class AiringChecker extends BroadcastReceiver {
 
     private static void notify(Context ctx, String title, int ep, String url) {
         try {
+            // Пожелание Люми №3: уведомление открывает чат с готовой темой для обсуждения
             Intent open = new Intent(ctx, MainActivity.class);
-            open.putExtra("open", "anime");
+            open.putExtra("open", "chat");
+            open.putExtra("discuss", title + " — серия " + ep + " уже вышла! Обсудим? 💬");
             PendingIntent pi = PendingIntent.getActivity(ctx, (int) (System.currentTimeMillis() % 100000),
                     open, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            NotificationCompat.Builder b = new NotificationCompat.Builder(ctx, com.lumi.chat.App.CH_EPISODES)
+            androidx.core.app.NotificationCompat.Builder b = new androidx.core.app.NotificationCompat.Builder(ctx, com.lumi.chat.App.CH_EPISODES)
                     .setSmallIcon(R.drawable.ic_tv)
                     .setContentTitle("Новая серия! 🎉")
                     .setContentText(title + " — серия " + ep + " уже вышла")
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(title + " — серия " + ep + " уже вышла. Люми не дала пропустить ✨"))
+                    .setStyle(new androidx.core.app.NotificationCompat.BigTextStyle().bigText(title + " — серия " + ep + " уже вышла. Тапни — и обсудим с Люми ✨"))
                     .setAutoCancel(true)
                     .setContentIntent(pi);
-            NotificationManager nm = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+            android.app.NotificationManager nm = (android.app.NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.notify(("ep" + title).hashCode(), b.build());
         } catch (Exception ignore) {}
     }

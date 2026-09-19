@@ -84,6 +84,13 @@ public class ChatFragment extends Fragment implements ChatAdapter.Cb {
             if (st == TextToSpeech.SUCCESS) tts.setLanguage(new Locale("ru"));
             ttsReady = st == TextToSpeech.SUCCESS;
         });
+
+        if (pendingDiscuss != null) {
+            String t = pendingDiscuss;
+            pendingDiscuss = null;
+            input.setText(t);
+            send();
+        }
     }
 
     private void loadHistory() {

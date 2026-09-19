@@ -27,7 +27,23 @@ jobs:
           gradle-version: '8.9'
 
       - name: Build debug APK
-        run: gradle assembleDebug --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          gradle assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+          echo "BUILD_EXIT=$?" >> "$GITHUB_ENV" || true
+
+      - name: Diagnostics on failure
+        if: failure()
+        run: |
+          mkdir -p ci
+          grep -iE "error|FAILURE|Exception" build.log | head -60 > ci/errors.txt || true
+          tail -100 build.log > ci/tail.txt || true
+          git config user.name "lumi-ci"
+          git config user.email "lumi-ci@users.noreply.github.com"
+          git add ci/ || true
+          git commit -m "ci: лог ошибок сборки [skip ci]" || exit 0
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          git push origin "HEAD:$BRANCH" || echo "пуш лога не удался"
 
       - name: Prepare APK
         run: |
@@ -49,4 +65,4 @@ jobs:
           git add apk/Lumi-Chat-v2.0-debug.apk
           git commit -m "build: Lumi APK v2.0 [skip ci]" || exit 0
           BRANCH="${GITHUB_REF#refs/heads/}"
-          git push origin "HEAD:$BRANCH" || echo "не удалось запушить APK в ветку (нужны права), но артефакт собран"
+          git push origin "HEAD:$BRANCH" || echo "не удалось запушить APK в ветку, но артефакт собран"

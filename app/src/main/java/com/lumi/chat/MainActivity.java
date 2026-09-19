@@ -69,8 +69,14 @@ public class MainActivity extends FragmentActivity implements ViewerDialog.Host 
     }
 
     private void handleIntent(Intent intent) {
-        if (intent != null && "anime".equals(intent.getStringExtra("open"))) {
+        if (intent == null) return;
+        String open = intent.getStringExtra("open");
+        if ("anime".equals(open)) {
             nav.setSelectedItemId(R.id.nav_anime);
+        } else if ("chat".equals(open)) {
+            nav.setSelectedItemId(R.id.nav_chat);
+            String discuss = intent.getStringExtra("discuss");
+            if (discuss != null && !discuss.isEmpty()) chatFrag.discuss(discuss);
         }
     }
 
