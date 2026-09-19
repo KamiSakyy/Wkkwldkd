@@ -53,7 +53,7 @@ public class CharacterFragment extends Fragment implements CharacterAdapter.Cb {
             else adapter.set(java.util.Collections.emptyList());
         });
 
-        SwipeRefresh swipe = v.findViewById(R.id.swipe);
+        SwipeRefreshLayout swipe = v.findViewById(R.id.swipe);
         swipe.setEnabled(false);
     }
 

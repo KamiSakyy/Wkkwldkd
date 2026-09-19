@@ -42,9 +42,6 @@ public class ChatFragment extends Fragment implements ChatAdapter.Cb {
     private TextToSpeech tts;
     private boolean ttsReady = false;
 
-    private String lastType = IntentRouter.T_CHAT;
-    private String lastQuery = "";
-
     private final ActivityResultLauncher<Intent> voiceLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), res -> {
                 if (res.getResultCode() == Activity.RESULT_OK && res.getData() != null) {
@@ -55,6 +52,20 @@ public class ChatFragment extends Fragment implements ChatAdapter.Cb {
                     }
                 }
             });
+
+    private String lastType = IntentRouter.T_CHAT;
+    private String lastQuery = "";
+    private String pendingDiscuss = null; // тема из уведомления о новой серии
+
+    /** Уведомление о новой серии → сразу обсудить с Люми. */
+    public void discuss(String text) {
+        pendingDiscuss = text;
+        if (getView() != null && input != null) {
+            input.setText(text);
+            send();
+            pendingDiscuss = null;
+        }
+    }
 
     @Nullable
     @Override

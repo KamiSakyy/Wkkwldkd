@@ -56,7 +56,7 @@ public class ArtFragment extends Fragment implements ArtAdapter.Cb {
             reload();
         });
 
-        SwipeRefresh swipe = v.findViewById(R.id.swipe);
+        SwipeRefreshLayout swipe = v.findViewById(R.id.swipe);
         swipe.setOnRefreshListener(this::reload);
 
         LinearLayout chips = v.findViewById(R.id.chips);
@@ -116,7 +116,7 @@ public class ArtFragment extends Fragment implements ArtAdapter.Cb {
     }
 
     private void loadCategory() {
-        SwipeRefresh swipe = requireView().findViewById(R.id.swipe);
+        SwipeRefreshLayout swipe = requireView().findViewById(R.id.swipe);
         swipe.setRefreshing(true);
         ArtSources.byCategory(category.isEmpty() ? "Все" : category, 12, new ArtSources.Done() {
             @Override public void ok(List<Models.ArtItem> items) {
@@ -134,7 +134,7 @@ public class ArtFragment extends Fragment implements ArtAdapter.Cb {
 
     private void reload() {
         if (!query.isEmpty()) {
-            SwipeRefresh swipe = requireView().findViewById(R.id.swipe);
+            SwipeRefreshLayout swipe = requireView().findViewById(R.id.swipe);
             swipe.setRefreshing(true);
             ArtSources.fetch(query, 12, false, new ArtSources.Done() {
                 @Override public void ok(List<Models.ArtItem> items) {

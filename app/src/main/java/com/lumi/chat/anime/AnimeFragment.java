@@ -49,7 +49,7 @@ public class AnimeFragment extends Fragment {
             searchAnime(q);
         });
 
-        SwipeRefresh swipe = v.findViewById(R.id.swipe);
+        SwipeRefreshLayout swipe = v.findViewById(R.id.swipe);
         swipe.setOnRefreshListener(() -> {
             search.setText("");
             ((TextView) requireView().findViewById(R.id.sectionTitle)).setText("🔥 Скоро в эфире (7 дней)");
@@ -60,7 +60,7 @@ public class AnimeFragment extends Fragment {
     }
 
     private void loadSchedule() {
-        SwipeRefresh swipe = requireView().findViewById(R.id.swipe);
+        SwipeRefreshLayout swipe = requireView().findViewById(R.id.swipe);
         swipe.setRefreshing(true);
         long now = System.currentTimeMillis() / 1000L;
         AnimeApi.airing(now - 3600, now + 7L * 24 * 3600, new AnimeApi.Done() {
@@ -78,7 +78,7 @@ public class AnimeFragment extends Fragment {
     }
 
     private void searchAnime(String q) {
-        SwipeRefresh swipe = requireView().findViewById(R.id.swipe);
+        SwipeRefreshLayout swipe = requireView().findViewById(R.id.swipe);
         swipe.setRefreshing(true);
         AnimeApi.search(q, new AnimeApi.Done() {
             @Override public void ok(java.util.List<com.lumi.chat.Models.AiringItem> items) {

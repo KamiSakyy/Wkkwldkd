@@ -1,5 +1,7 @@
 package com.lumi.chat.util;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;

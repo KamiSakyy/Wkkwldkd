@@ -3,6 +3,8 @@ package com.lumi.chat.anime;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 
 import androidx.core.app.NotificationCompat;
 
