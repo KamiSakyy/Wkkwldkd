@@ -1,0 +1,42 @@
+ - Enhanced Error and Warning Messages
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/art/ViewerDialog.java:68: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/MainActivity.java:79: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/art/ViewerDialog.java:48: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/chat/ChatFragment.java:88: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/chat/ChatFragment.java:89: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/chat/ChatFragment.java:90: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/chat/ChatFragment.java:328: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/art/ArtFragment.java:59: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/art/ArtFragment.java:119: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/art/ArtFragment.java:137: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/chars/CharacterFragment.java:56: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AnimeFragment.java:52: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AnimeFragment.java:63: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AnimeFragment.java:81: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:62: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:63: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:63: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:62: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:78: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:78: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:80: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:80: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:80: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:80: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/anime/AiringChecker.java:81: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/chars/CharacterFinder.java:72: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/util/Saver.java:114: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/util/Saver.java:114: error: cannot find symbol
+/home/runner/work/Wkkwldkd/Wkkwldkd/app/src/main/java/com/lumi/chat/util/Saver.java:115: error: cannot find symbol
+29 errors
+FAILURE: Build failed with an exception.
+> Compilation failed; see the compiler error output for details.
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileDebugJavaWithJavac'.
+	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:293)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+Caused by: org.gradle.api.internal.tasks.compile.CompilationFailedException: Compilation failed; see the compiler error output for details.
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHandleErrors(NormalizingJavaCompiler.java:98)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
