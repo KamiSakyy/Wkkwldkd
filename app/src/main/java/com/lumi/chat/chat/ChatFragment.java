@@ -27,6 +27,7 @@ import com.lumi.chat.art.ViewerDialog;
 import com.lumi.chat.chars.CharacterFinder;
 import com.lumi.chat.db.Db;
 import com.lumi.chat.anime.AnimeApi;
+import com.lumi.chat.util.Md;
 import com.lumi.chat.util.Saver;
 
 import java.util.ArrayList;

@@ -69,7 +69,7 @@ public final class CharacterFinder {
                 else title = Json.str(md, "title.russian") + " · " + Json.str(md, "title.romaji");
                 JSONArray nodes = md.optJSONObject("characters") == null ? null : md.optJSONObject("characters").optJSONArray("nodes");
                 if (nodes == null) continue;
-                for (int i = 0; i < nodes.size(); i++) {
+                for (int i = 0; i < nodes.length(); i++) {
                     JSONObject c = nodes.getJSONObject(i);
                     String full = Json.str(c, "name.full");
                     if (full.isEmpty()) continue;
