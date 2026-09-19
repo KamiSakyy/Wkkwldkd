@@ -38,13 +38,27 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/subtitle"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="твоя ИИ-подруга · 18 лет"
-                android:textColor="@color/textDim"
-                android:textSize="11sp" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="твоя ИИ-подруга · 18 лет"
+                    android:textColor="@color/textDim"
+                    android:textSize="11sp" />
+
+                <View
+                    android:id="@+id/onlineDot"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/dot_online" />
+            </LinearLayout>
         </LinearLayout>
 
         <ImageButton

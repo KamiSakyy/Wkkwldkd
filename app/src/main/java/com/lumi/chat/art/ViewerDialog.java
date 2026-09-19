@@ -29,10 +29,14 @@ public class ViewerDialog extends BottomSheetDialogFragment {
     private Models.ArtItem item;
 
     public static void show(FragmentActivity act, Models.ArtItem a) {
-        if (!(act instanceof Host)) return;
-        ViewerDialog vd = new ViewerDialog();
-        vd.item = a;
-        vd.show(act.getSupportFragmentManager(), "viewer");
+        if (!(act instanceof Host) || act.isFinishing()) return;
+        try {
+            ViewerDialog vd = new ViewerDialog();
+            vd.item = a;
+            vd.show(act.getSupportFragmentManager(), "viewer");
+        } catch (Exception e) {
+            // окно не открылось (например, активити в фоне) — не падаем
+        }
     }
 
     @NonNull

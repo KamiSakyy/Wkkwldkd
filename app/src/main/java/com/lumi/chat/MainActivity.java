@@ -111,6 +111,9 @@ public class MainActivity extends FragmentActivity implements ViewerDialog.Host 
         android.widget.EditText etModel = v.findViewById(R.id.etModel);
         android.widget.EditText etToken7 = v.findViewById(R.id.etToken7);
         android.widget.EditText etPoll = v.findViewById(R.id.etPoll);
+        android.widget.EditText etCustomUrl = v.findViewById(R.id.etCustomUrl);
+        android.widget.EditText etCustomKey = v.findViewById(R.id.etCustomKey);
+        android.widget.EditText etCustomModel = v.findViewById(R.id.etCustomModel);
         android.widget.CheckBox cbTts = v.findViewById(R.id.cbTts);
         TextView dossier = v.findViewById(R.id.tvDossier);
 
@@ -118,9 +121,14 @@ public class MainActivity extends FragmentActivity implements ViewerDialog.Host 
         etModel.setText(model.isEmpty() ? LumiService.DEFAULT_MODEL : model);
         etToken7.setText(Db.get().kvGet("token7", ""));
         etPoll.setText(Db.get().kvGet("polltoken", ""));
+        etCustomUrl.setText(Db.get().kvGet("customUrl", ""));
+        etCustomKey.setText(Db.get().kvGet("customKey", ""));
+        etCustomModel.setText(Db.get().kvGet("customModel", ""));
         cbTts.setChecked(Db.get().kvGet("tts", "0").equals("1"));
         String d = Db.get().dossier();
-        dossier.setText(d.isEmpty() ? "Досье пусто — расскажи Люми о себе в чате 💜" : "Что Люми запомнила:\n" + d.replace("\n-", "\n• ").replaceFirst("^\n•", "•"));
+        String crash = App.crashTail();
+        dossier.setText((d.isEmpty() ? "Досье пусто — расскажи Люми о себе в чате 💜" : "Что Люми запомнила:\n" + d.replace("\n-", "\n• ").replaceFirst("^\n•", "•"))
+                + (crash.isEmpty() ? "" : "\n\n⚠️ Последний сбой: " + crash));
 
         new AlertDialog.Builder(this)
                 .setView(v)
@@ -130,6 +138,9 @@ public class MainActivity extends FragmentActivity implements ViewerDialog.Host 
             Db.get().kvSet("model", etModel.getText().toString().trim());
             Db.get().kvSet("token7", etToken7.getText().toString().trim());
             Db.get().kvSet("polltoken", etPoll.getText().toString().trim());
+            Db.get().kvSet("customUrl", etCustomUrl.getText().toString().trim());
+            Db.get().kvSet("customKey", etCustomKey.getText().toString().trim());
+            Db.get().kvSet("customModel", etCustomModel.getText().toString().trim());
             Db.get().kvSet("tts", cbTts.isChecked() ? "1" : "0");
             Toast.makeText(this, "Сохранила! ✨", Toast.LENGTH_SHORT).show();
         });

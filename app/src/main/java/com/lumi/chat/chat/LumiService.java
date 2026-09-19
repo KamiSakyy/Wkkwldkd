@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/** Работа с LLM: llm7.io (основной, бесплатный) + Pollinations (резерв). Стриминг + фолбэки. */
+/** Работа с LLM. Вся цепочка — в фоновом потоке, много фолбэков + кастомный API из настроек. */
 public final class LumiService {
     private LumiService() {}
 
@@ -25,6 +25,7 @@ public final class LumiService {
     public static final String DEFAULT_MODEL = "GLM-5.3-Flash";
     private static final String LLM7 = "https://api.llm7.io/v1/chat/completions";
     private static final String POLLINATIONS = "https://text.pollinations.ai/openai";
+    private static final String HACKCLUB = "https://ai.hackclub.com/chat/completions";
     private static final Random RND = new Random();
 
     public static String model() {
@@ -32,43 +33,78 @@ public final class LumiService {
         return m.isEmpty() ? DEFAULT_MODEL : m;
     }
 
-    /** Полный цикл: строит контекст и стримит ответ, при ошибке пробует следующий провайдера. */
+    /**
+     * Полный цикл. САМ уходит в фоновый поток (важно: из UI-потока вызывать безопасно).
+     * Порядок попыток:
+     *  1) llm7.io стриминг (GLM-5.3-Flash, бесплатный)
+     *  2) llm7.io без стрима
+     *  3) llm7.io codestral-latest
+     *  4) кастомный OpenAI-совместимый API из настроек (если вписан)
+     *  5) ai.hackclub.com (бесплатный, без ключа)
+     *  6) Pollinations (резерв; в некоторых регионах заблокирован)
+     */
     public static void chat(List<Models.Msg> history, String dossier, StreamCb cb) {
-        JSONArray msgs = buildMessages(history, dossier);
-        String model = model();
-        String token7 = Db.get().kvGet("token7", "");
-        // 1) llm7 стриминг
-        Http.postSse(LLM7, body(msgs, model, true, null), token7.isEmpty() ? "public-anonymous" : token7, new Http.SseCallback() {
-            @Override public void onDelta(String d) { cb.onDelta(d); }
-            @Override public void onDone(String full) { cb.onDone(clean(full)); }
-            @Override public void onError(String e) {
-                // 2) llm7 без стрима
-                try {
-                    String r = Http.postJson(LLM7, body(msgs, model, false, null), token7.isEmpty() ? "public-anonymous" : token7, 60000);
-                    String content = parseContent(r);
-                    if (!content.isEmpty()) { cb.onDone(clean(content)); return; }
-                    throw new Exception("пустой ответ");
-                } catch (Exception ex) {
-                    // 3) другой модельный резерв: codestral на llm7
-                    try {
-                        String r2 = Http.postJson(LLM7, body(msgs, "codestral-latest", false, null), token7.isEmpty() ? "public-anonymous" : token7, 60000);
-                        String c2 = parseContent(r2);
-                        if (!c2.isEmpty()) { cb.onDone(clean(c2)); return; }
-                        throw new Exception("пустой ответ");
-                    } catch (Exception ex2) {
-                        // 4) Pollinations резерв
-                        try {
-                            String r3 = Http.postJson(POLLINATIONS, body(msgs, "openai", false, "lumi-chat"), "", 60000);
-                            String c3 = parseContent(r3);
-                            if (!c3.isEmpty()) { cb.onDone(clean(c3)); return; }
-                            throw new Exception("пустой ответ");
-                        } catch (Exception ex3) {
-                            cb.onError("Не получилось связаться с моим «мозгом» 😔 Проверь интернет или поменяй модель в настройках.");
-                        }
-                    }
-                }
+        Http.POOL.execute(() -> {
+            JSONArray msgs = buildMessages(history, dossier);
+            String model = model();
+            String token7 = Db.get().kvGet("token7", "");
+            String llm7Auth = token7.isEmpty() ? "public-anonymous" : token7;
+
+            boolean[] delivered = {false};
+
+            // 1) llm7 стриминг (блокирует поток до завершения, дельты летят в UI)
+            Http.postSse(LLM7, body(msgs, model, true, null), llm7Auth, new Http.SseCallback() {
+                @Override public void onDelta(String d) { if (!delivered[0]) cb.onDelta(d); }
+                @Override public void onDone(String full) { delivered[0] = true; cb.onDone(clean(full)); }
+                @Override public void onError(String e) { /* пробуем следующие */ }
+            });
+            if (delivered[0]) return;
+
+            // 2) llm7 без стрима
+            attempt(msgs, LLM7, model, llm7Auth, delivered, cb);
+            if (delivered[0]) return;
+
+            // 3) llm7 другая модель
+            attempt(msgs, LLM7, "codestral-latest", llm7Auth, delivered, cb);
+            if (delivered[0]) return;
+
+            // 4) кастомный API пользователя (гарантированный вариант при блокировках)
+            String cu = Db.get().kvGet("customUrl", "").trim();
+            String ck = Db.get().kvGet("customKey", "").trim();
+            String cm = Db.get().kvGet("customModel", "").trim();
+            if (!cu.isEmpty()) {
+                attempt(msgs, cu, cm.isEmpty() ? model : cm, ck, delivered, cb);
+                if (delivered[0]) return;
             }
+
+            // 5) hackclub (без ключа)
+            attempt(msgs, HACKCLUB, "unnamed", "", delivered, cb);
+            if (delivered[0]) return;
+
+            // 6) pollinations
+            attempt(msgs, POLLINATIONS, "openai", "", delivered, cb);
+            if (delivered[0]) return;
+
+            cb.onError("Не получилось связаться с моим «мозгом» 😔\n\n" +
+                    "Проверь интернет. Если твои бесплатные ИИ блокирует регион (например, Pollinations в РФ) — " +
+                    "открой Настройки и впиши любой OpenAI-совместимый API (URL, ключ, модель): " +
+                    "тогда я буду работать через него, 100% надёжно 💜");
         });
+    }
+
+    /** Одна блокирующая попытка; при успехе доставляет текст и ставит delivered=true. */
+    private static void attempt(JSONArray msgs, String url, String model, String bearer, boolean[] delivered, StreamCb cb) {
+        try {
+            String ref = url.contains("pollinations") ? "lumi-chat" : null;
+            String r = Http.postJson(url, body(msgs, model, false, ref), bearer, 45000);
+            String c = parseContent(r);
+            if (c != null && !c.trim().isEmpty()) {
+                delivered[0] = true;
+                String f = clean(c);
+                cb.onDelta(f);
+                cb.onDone(f);
+            }
+        } catch (Exception ignore) {}
     }
 
     private static String parseContent(String resp) {
@@ -97,14 +133,15 @@ public final class LumiService {
                 String c = m.content;
                 if ("images".equals(m.kind)) {
                     if ("user".equals(m.role)) continue;
-                    StringBuilder sb = new StringBuilder("Отправила арты: ");
-                    try {
-                        JSONArray arr = new JSONArray(c);
-                        for (int k = 0; k < arr.length(); k++) {
-                            if (k > 0) sb.append("; ");
-                            sb.append(arr.getJSONObject(k).optString("title", "арт"));
-                        }
-                    } catch (Exception ignore) {}
+                    StringBuilder sb = new StringBuilder("Отправила пользователю арты: ");
+                    ArrayList<Models.ArtItem> imgs = m.images();
+                    for (int k = 0; k < imgs.size(); k++) {
+                        if (k > 0) sb.append("; ");
+                        String t = imgs.get(k).title;
+                        sb.append(t == null || t.isEmpty() ? "арт" : t);
+                    }
+                    String intro = m.intro();
+                    if (!intro.isEmpty()) sb.append(". Я написала: ").append(intro);
                     c = sb.toString();
                 }
                 if (c == null || c.trim().isEmpty()) continue;

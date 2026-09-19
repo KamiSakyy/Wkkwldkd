@@ -41,6 +41,16 @@
                 android:lineSpacingExtra="3dp"
                 android:textIsSelectable="true" />
 
+            <TextView
+                android:id="@+id/dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="●  ●  ●"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:letterSpacing="0.2"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/imgGrid"
                 android:layout_width="220dp"
@@ -55,8 +65,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:layout_marginStart="36dp"
         android:layout_marginTop="2dp">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textColor="@color/textDim"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/btnTts"
@@ -66,5 +85,15 @@
             android:text="🔊 озвучить"
             android:textColor="@color/textDim"
             android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/btnRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="🔄 повторить"
+            android:textColor="@color/warn"
+            android:textSize="11sp"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

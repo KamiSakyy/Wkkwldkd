@@ -49,21 +49,21 @@ jobs:
       - name: Prepare APK
         run: |
           mkdir -p apk
-          cp app/build/outputs/apk/debug/app-debug.apk apk/Lumi-Chat-v2.0-debug.apk
+          cp app/build/outputs/apk/debug/app-debug.apk apk/Lumi-Chat-v2.1-debug.apk
           ls -la apk/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Lumi-APK
-          path: apk/Lumi-Chat-v2.0-debug.apk
+          path: apk/Lumi-Chat-v2.1-debug.apk
           if-no-files-found: error
 
       - name: Commit APK into branch (для скачивания из репозитория)
         run: |
           git config user.name "lumi-ci"
           git config user.email "lumi-ci@users.noreply.github.com"
-          git add apk/Lumi-Chat-v2.0-debug.apk
+          git add apk/Lumi-Chat-v2.1-debug.apk
           git commit -m "build: Lumi APK v2.0 [skip ci]" || exit 0
           BRANCH="${GITHUB_REF#refs/heads/}"
           git push origin "HEAD:$BRANCH" || echo "не удалось запушить APK в ветку, но артефакт собран"
